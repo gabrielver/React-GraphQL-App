@@ -1,11 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useQuery, gql } from "@apollo/client";
-import { FETCH_POSTS_QUERY } from "../GraphQL/Queries";
+import { FETCH_POSTS_QUERY } from "../utils/graphql";
 import { Grid } from "semantic-ui-react";
+
+import { AuthContext } from "../context/auth";
 import PostCard from "../components/PostCard";
-import { useState } from "react";
+import PostForm from "../components/PostForm";
 
 function Home() {
+  const { user } = useContext(AuthContext);
+
   const { error, loading, data } = useQuery(FETCH_POSTS_QUERY);
   const [posts, setPosts] = useState([]);
 
@@ -23,6 +27,11 @@ function Home() {
         <h1>Recent Post</h1>
       </Grid.Row>
       <Grid.Row>
+        {user && (
+          <Grid.Column>
+            <PostForm></PostForm>
+          </Grid.Column>
+        )}
         {loading ? (
           <h1>Loading posts ...</h1>
         ) : (
