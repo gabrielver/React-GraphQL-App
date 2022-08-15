@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Form, Button } from "semantic-ui-react";
 import { gql } from "@apollo/client";
 import { useMutation } from "@apollo/react-hooks";
 
+import { AuthContext } from "../context/auth";
 import { useForm } from "../utils/hooks";
 import { useNavigate } from "react-router-dom";
 
 function Login(props) {
+  const context = useContext(AuthContext);
   let navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
@@ -17,9 +19,8 @@ function Login(props) {
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
     update(_, { data: { login: userData } }) {
-      // context.login(userData);
+      context.login(userData);
       // this.props.history.push("/");
-
       navigate("/");
     },
     onError(err) {
