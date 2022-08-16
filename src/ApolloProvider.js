@@ -32,6 +32,21 @@ const authLink = setContext(() => {
 const client = new ApolloClient({
   link: authLink.concat(link),
   cache: new InMemoryCache(),
+  // cache: new InMemoryCache({
+  //   typePolicies: {
+  //     Query: {
+  //       fields: {
+  //         YOUR_FIELD: {
+  //           merge(existing = [], incoming: any) {
+  //             return { ...existing, ...incoming };
+  //             // this part of code is depends what you actually need to do, in my
+  //             // case i had to save my incoming data as single object in cache
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  // }),
 });
 
 export default (
